@@ -1,0 +1,138 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" type="image/x-icon" href="https://richart.tw/TSDIB_RichartWeb/static/img/common/favicon.ico?img=20170811_01">
+  <style>
+    #myInput {
+      outline: none;
+      border-radius: 5px;
+      background-image: url('/css/searchicon.png');
+      /* Add a search icon to input */
+      background-position: 10px 12px;
+      /* Position the search icon */
+      background-repeat: no-repeat;
+      /* Do not repeat the icon image */
+      width: 100%;
+      /* Full-width */
+      font-size: 16px;
+      /* Increase font-size */
+      padding: 12px 20px 12px 40px;
+      /* Add some padding */
+      border: 1px solid #ddd;
+      /* Add a grey border */
+      margin-bottom: 12px;
+      /* Add some space below the input */
+    }
+
+    #myInput:focus {
+      border-color: black;
+    }
+
+    #myUL {
+      /* Remove default list styling */
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #myUL li a {
+      border: 1px solid #ddd;
+      /* Add a border to all links */
+      margin-top: -1px;
+      /* Prevent double borders */
+      background-color: #f6f6f6;
+      /* Grey background color */
+      padding: 12px;
+      /* Add some padding */
+      text-decoration: none;
+      /* Remove default text underline */
+      font-size: 18px;
+      /* Increase the font-size */
+      color: black;
+      /* Add a black text color */
+      display: block;
+      /* Make it into a block element to fill the whole list */
+    }
+
+    #myUL li a:hover:not(.header) {
+      background-color: #eee;
+      /* Add a hover effect to all links, except for headers */
+    }
+
+    #header {
+      background: url(https://richart.tw/TSDIB_RichartWeb/static/img/index/richart-invest.png);
+      background-size: contain;
+      height: 100px;
+      background-repeat: no-repeat;
+    }
+
+    h2 {
+      font-family: sans-serif;
+      font-weight: lighter;
+      color: #888;
+    }
+  </style>
+
+  <title>Richart search!</title>
+</head>
+
+<body>
+  <div id="header">
+
+  </div>
+  <h2>Richart Search!</h2>
+
+  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+
+  <ul id="myUL"></ul>
+
+</body>
+<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyD7Oy5wabmEOJpCupz3CUkJgA5I0qO69PE",
+    authDomain: "search-board.firebaseapp.com",
+    databaseURL: "https://search-board.firebaseio.com",
+    projectId: "search-board",
+    storageBucket: "search-board.appspot.com",
+    messagingSenderId: "375701141987"
+  };
+  var st;
+  var f = firebase.initializeApp(config).database().ref();
+
+  f.on('value', snapshot => {
+    st = snapshot.val()
+    init(st.list)
+  })
+
+  const init = arr => arr.forEach(element => {
+    console.log(element)
+    $("ul").append("<li><a href='#'>" + element + "</a></li>")
+  });
+
+  function myFunction() {
+    // Declare variables
+    var input, filter, ul, li, a, i;
+    input = document.getElementById('myInput');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByTagName('li');
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+      a = li[i].getElementsByTagName("a")[0];
+      if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = "";
+      } else {
+        li[i].style.display = "none";
+      }
+    }
+  }
+</script>
+
+</html>
