@@ -6,6 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="shortcut icon" type="image/x-icon" href="https://richart.tw/TSDIB_RichartWeb/static/img/common/favicon.ico?img=20170811_01">
   <style>
+    body {
+      font-family: sans-serif;
+      font-weight: lighter;
+      background: #eee;
+    }
+
     #myInput {
       outline: none;
       border-radius: 5px;
@@ -51,7 +57,7 @@
       /* Remove default text underline */
       font-size: 18px;
       /* Increase the font-size */
-      color: black;
+      color: #999;
       /* Add a black text color */
       display: block;
       /* Make it into a block element to fill the whole list */
@@ -74,20 +80,65 @@
       font-weight: lighter;
       color: #888;
     }
+
+    section {
+      margin: 10px auto;
+      background: #fff;
+      border-radius: 7px;
+      padding: 20px;
+      max-width: 600px;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      background-color: #ccc;
+    
+      margin: 100px auto;
+      -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+      animation: sk-rotateplane 1.2s infinite ease-in-out;
+    }
+    
+    @-webkit-keyframes sk-rotateplane {
+      0% { -webkit-transform: perspective(120px) }
+      50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+      100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+    }
+    
+    @keyframes sk-rotateplane {
+      0% { 
+        transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+        -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg) 
+      } 50% { 
+        transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+        -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg) 
+      } 100% { 
+        transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+        -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+      }
+    }
   </style>
 
   <title>Richart search!</title>
 </head>
 
 <body>
-  <div id="header">
 
-  </div>
-  <h2>Richart Search!</h2>
+  <section>
+    <div id="header">
 
-  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+    </div>
+    <h2>Richart Search!</h2>
 
-  <ul id="myUL"></ul>
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+
+    <div class="spinner">
+      <div class="double-bounce1"></div>
+      <div class="double-bounce2"></div>
+    </div>
+
+    <ul id="myUL"></ul>
+  </section>
 
 </body>
 <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
@@ -111,7 +162,7 @@
   })
 
   const init = arr => arr.forEach(element => {
-    console.log(element)
+    $(".spinner").css("display", "none")
     $("ul").append("<li><a href='#'>" + element + "</a></li>")
   });
 
